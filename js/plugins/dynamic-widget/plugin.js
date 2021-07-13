@@ -41,11 +41,11 @@
           // Init existing editables
           for (var i = 1; i < parseInt(this.data.elements); i++){
             var titleEditable = this.initEditable('title' + i, {
-              selector: '.grid-list__item--' + i + ' .grid-list__title',
+              selector: '.dynamic-content--' + i + ' h4',
               allowedContent: 'strong'
             });
             var contentEditable = this.initEditable('content-' + i, {
-              selector: '.grid-list__item--' + i + ' .grid-list__content',
+              selector: '.dynamic-content--' + i + ' p',
               allowedContent: 'span br em strong a'
             });
             if (!titleEditable && !contentEditable) {
@@ -56,26 +56,25 @@
         data: function () {
           var currentElements = this.element.find('li').count();
 
-          // Add more items if needed.
           if (this.data.elements) {
             var targetElements = parseInt(this.data.elements);
-            // Addign elements
+            // CASE 1: User is adding elements.
             if (currentElements < targetElements) {
               for (var i = currentElements; i < targetElements; i++){
 
                 // Generate and append a new item.
                 var newItem = new CKEDITOR.dom.element('li');
-                newItem.setAttribute('class', 'grid-list__item grid-list__item--' + i);
-                newItem.appendHtml('<p class="grid-list__title">Here comes the title</p><p class="grid-list__content">Here comes the content</p>');
+                newItem.setAttribute('class', 'dynamic-content dynamic-content--' + i);
+                newItem.appendHtml('<h4>Here comes the title</h4><p>Here comes the content</p>');
                 this.element.append(newItem);
 
                 // Dynamically generate the editable areas.
                 var titleEditable = this.initEditable('title' + i, {
-                  selector: '.grid-list__item--' + i + ' .grid-list__title',
+                  selector: '.dynamic-content--' + i + ' h4',
                   allowedContent: 'em strong'
                 });
                 var contentEditable = this.initEditable('content-' + i, {
-                  selector: '.grid-list__item--' + i + ' .grid-list__content',
+                  selector: '.dynamic-content--' + i + ' p',
                   allowedContent: 'span br em strong a'
                 });
                 if (!titleEditable && !contentEditable) {
@@ -83,7 +82,7 @@
                 };
               }
             }
-            // Substracting elements
+            // CASE 2: User is substracting elements
             else if (currentElements > targetElements){
               var children = this.element.find('li')
               children.toArray().forEach(function(item, index){
@@ -95,14 +94,14 @@
           };
         },
         upcast: function( element ) {
-          return element.name == 'ol' && element.hasClass('grid-list');
+          return element.name == 'div' && element.hasClass('dynamic-content');
         },
       });
 
-      editor.ui.addButton('grid-list', {
-        label: Drupal.t('Insert grid list'),
-        command: 'gridList',
-        icon: this.path + 'icons/grid-list.png'
+      editor.ui.addButton('dynamic-widget', {
+        label: Drupal.t('Insert dynamic widget'),
+        command: 'dynamic-widget',
+        icon: this.path + 'icons/dynamic-widget.png'
       });
 
     }

@@ -1,19 +1,19 @@
 /**
  * @file
- * Defines dialog for GridList CKEditor plugin.
+ * Defines dialog for Dynamic Widget CKEditor plugin.
  */
 
-(function (Drupal, $) {
+(function (Drupal) {
 
   'use strict';
 
   // Dialog definition.
-  CKEDITOR.dialog.add('gridListDialog', function (editor) {
+  CKEDITOR.dialog.add('dynamic-widget-dialog', function (editor) {
 
     return {
 
       // Basic properties of the dialog window: title, minimum size.
-      title: Drupal.t('Grid list configuration'),
+      title: Drupal.t('Dynamic widget configuration'),
       minWidth: 400,
       minHeight: 150,
 
@@ -28,10 +28,10 @@
           elements: [
             {
               type: 'html',
-              html: '<p>You currently have <span>0</span> list items. Please input the desired number of elements.<br> Be careful: if your input is smaller than the current number of items, you will delete some elements.</p>',
+              html: '<p>You currently have <span>0</span> items. Please input the desired number of elements.<br> Be careful: if your input is smaller than the current number of items, you will delete some elements.</p>',
               setup: function (widget) {
-                var $html = $(this.getElement().$);
-                $html.find('span').text(widget.data.elements);
+                var element = this.getElement();
+                element.findOne('span').setText(widget.data.elements);
               },
             },
             {
@@ -48,7 +48,7 @@
                 widget.setData('elements', this.getValue());
               },
               // Validation checking whether the field is not empty.
-              validate: CKEDITOR.dialog.validate.integer(Drupal.t('You have to introduce a valid number of elements on the list.'))
+              validate: CKEDITOR.dialog.validate.integer(Drupal.t('You have to introduce a valid number of elements.'))
             },
           ]
         }
@@ -57,4 +57,4 @@
 
   });
 
-} (Drupal, jQuery));
+} (Drupal));

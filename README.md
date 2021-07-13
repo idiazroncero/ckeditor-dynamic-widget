@@ -3,7 +3,19 @@
 This boilerplate code solves a common issue where a CKEditor widget is not able
 to instantiate an unknow number of items.
 
-### The problem
+### How to use
+
+This is a boilerplate code that will only handle the widget dynamic generation
+of content and uses placeholder names and templates, so you are expected to take care of the following:
+
+- Implement your template on `plugin.js` instead of the existing placeholder.
+- Add any needed option on `dialogs/dynamic-widget.js` and implement it.
+- Modify the editable instantiation on `init()` and `data()` methods on `plugin.js`
+to reflect your HTML structure.
+- Change the name of the CKEditor buttons, widgets and dialogs to reflect your name.
+- Implement the CSS of your component.
+
+### The problem to solve
 
 Think of a list or a grid component: you want the user to be
 able to instantiate N items, but you only need to define the item once. This is
@@ -32,7 +44,7 @@ editable:
 </div>
 ```
 
-### The solution
+### The solution on this approach
 
 Many users have reflected on this issue, as you can see [here](https://github.com/ckeditor/ckeditor4/issues/3767) or
 [here](https://stackoverflow.com/questions/36365916/ckeditor-multiple-editables-with-same-selector) or [here](https://dev.ckeditor.com/ticket/12524).
