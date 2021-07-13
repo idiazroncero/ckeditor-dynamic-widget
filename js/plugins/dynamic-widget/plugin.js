@@ -6,7 +6,7 @@
  *
  */
 
-(function (Drupal, $) {
+(function (Drupal) {
 
   'use strict';
 
@@ -36,8 +36,7 @@
         requiredContent: 'div(dynamic-content)',
         init: function () {
           // Count the number of children on init.
-          var $element = $(this.element.$);
-          this.data.elements = $element.find('li').length;
+          this.data.elements = this.element.find('li').count();
 
           // Init existing editables
           for (var i = 1; i < parseInt(this.data.elements); i++){
@@ -55,8 +54,7 @@
           }
         },
         data: function () {
-          var $element = $(this.element.$);
-          var currentElements = $element.find('li').length
+          var currentElements = this.element.find('li').count();
 
           // Add more items if needed.
           if (this.data.elements) {
@@ -64,7 +62,14 @@
             // Addign elements
             if (currentElements < targetElements) {
               for (var i = currentElements; i < targetElements; i++){
-                $element.append('<li class="grid-list__item grid-list__item--' + i + '"><p class="grid-list__title">Here comes the title</p><p class="grid-list__content">Here comes the content</p></li>');
+
+                // Generate and append a new item.
+                var newItem = new CKEDITOR.dom.element('li');
+                newItem.setAttribute('class', 'grid-list__item grid-list__item--' + i);
+                newItem.appendHtml('<p class="grid-list__title">Here comes the title</p><p class="grid-list__content">Here comes the content</p>');
+                this.element.append(newItem);
+
+                // Dynamically generate the editable areas.
                 var titleEditable = this.initEditable('title' + i, {
                   selector: '.grid-list__item--' + i + ' .grid-list__title',
                   allowedContent: 'em strong'
@@ -80,9 +85,10 @@
             }
             // Substracting elements
             else if (currentElements > targetElements){
-              $element.find('li').each(function(index, item){
+              var children = this.element.find('li')
+              children.toArray().forEach(function(item, index){
                 if (index >= targetElements) {
-                  $(this).remove();
+                  item.remove();
                 }
               });
             }
@@ -102,4 +108,4 @@
     }
   });
 
-} (Drupal, jQuery));
+} (Drupal));
