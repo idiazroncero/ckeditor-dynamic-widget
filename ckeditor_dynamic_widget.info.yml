@@ -1,0 +1,6 @@
+name: CKEditor Dynamic Widget
+type: module
+description: Provides a boilerplate for dynamic widgets (unknown number of elements)
+package: CKEditor
+core: 8.x
+core_version_requirement: ^8 || ^9
